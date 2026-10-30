@@ -1,0 +1,18 @@
+# OS
+.DS_Store
+
+# 비밀/환경 (각자 .env 로 관리, AWS에서는 Parameter Store로 주입)
+.env
+
+# WebLogic 설치 파일 (약 655MB, 라이선스상 외부 공유 금지 — 팀 내부에서만 전달)
+was/installer/*.jar
+was/installer/*.zip
+
+# WebLogic autodeploy 런타임 생성물 (.war 만 배포)
+apps/*
+!apps/.gitkeep
+
+# 빌드 산출물
+*.war
+target/
+build/

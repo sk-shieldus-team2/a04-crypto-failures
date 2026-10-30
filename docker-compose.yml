@@ -1,0 +1,63 @@
+# 2팀 로컬 실습 환경: nginx -> WebLogic -> Oracle XE 21c
+# 실행:
+#   1) cp .env.example .env   (비밀번호 채우기)
+#   2) docker compose up -d --build
+#
+# 모든 계정/비밀번호는 .env 에서 주입한다. 저장소에는 올리지 않는다.
+
+# 앱용 DB 계정 (Oracle 생성용 + WebLogic 데이터소스용으로 같이 씀)
+x-app-db: &app-db
+  APP_USER: ${APP_USER}
+  APP_USER_PASSWORD: ${APP_USER_PASSWORD}
+
+services:
+  nginx:
+    build: ./web
+    image: team2/nginx:local
+    container_name: team2-nginx
+    ports:
+      - "8080:80"            # 브라우저: http://localhost:8080
+    depends_on:
+      - weblogic
+    restart: unless-stopped
+
+  weblogic:
+    build: ./was
+    image: team2/weblogic:local
+    container_name: team2-weblogic
+    environment:
+      <<: *app-db
+      WLS_USERNAME: ${WLS_USERNAME}                    # WebLogic 관리자 계정
+      WLS_PASSWORD: ${WLS_PASSWORD}
+      DB_URL: jdbc:oracle:thin:@//oracle:1521/XEPDB1   # AWS 이전 시 여기만 Oracle 주소로 변경
+    volumes:
+      - ./apps:/u01/oracle/user_projects/domains/base_domain/autodeploy   # WAR를 넣으면 자동 배포
+    ports:
+      - "7001:7001"          # 관리 콘솔: http://localhost:7001/console
+    depends_on:
+      oracle:
+        condition: service_healthy
+    restart: unless-stopped
+
+  oracle:
+    image: gvenzl/oracle-xe:21-slim
+    platform: linux/amd64    # x86 전용 이미지 (Apple Silicon은 Rosetta로 구동)
+    container_name: team2-oracle
+    environment:
+      <<: *app-db
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD}   # SYS / SYSTEM 관리자 비밀번호
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./db/oracle/vuln:/container-entrypoint-initdb.d:ro   # 최초 1회만 실행 (취약본 스키마)
+    ports:
+      - "1521:1521"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 5s
+      retries: 60
+      start_period: 60s
+    restart: unless-stopped
+
+volumes:
+  oracle-data:
