@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class Jwt {
-    private static final String SECRET = "secret";
+    private static final String SECRET = System.getenv("JWT_SECRET");
 
     private static final Base64.Encoder encoder = Base64.getUrlEncoder().withoutPadding();
     private static final Base64.Decoder decoder = Base64.getUrlDecoder();

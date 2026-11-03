@@ -29,6 +29,7 @@ services:
       <<: *app-db
       WLS_USERNAME: ${WLS_USERNAME}                    # WebLogic 관리자 계정
       WLS_PASSWORD: ${WLS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
       DB_URL: jdbc:oracle:thin:@//oracle:1521/XEPDB1   # AWS 이전 시 여기만 Oracle 주소로 변경
     volumes:
       - ./apps:/u01/oracle/user_projects/domains/base_domain/autodeploy   # WAR를 넣으면 자동 배포
