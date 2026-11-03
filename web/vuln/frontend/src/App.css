@@ -1,0 +1,561 @@
+/* ========================================================================
+   team2 — GitHub Primer 라이트 테마 UI
+   ======================================================================== */
+
+/* ---- 공통 버튼 ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  line-height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #f6f8fa;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: #eff2f5;
+}
+
+.btn:disabled {
+  color: #8c959f;
+  cursor: not-allowed;
+  background: #f6f8fa;
+}
+
+.btn-sm {
+  padding: 3px 12px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.btn-primary {
+  background: var(--green);
+  border-color: rgba(31, 35, 40, 0.15);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--green-hover);
+}
+
+.btn-primary:disabled {
+  background: #94d3a2;
+  border-color: rgba(31, 35, 40, 0.15);
+  color: #ffffff;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ---- 공통 입력 ---- */
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--link);
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.3);
+}
+
+textarea.input {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ========================================================================
+   로그인 화면
+   ======================================================================== */
+.signin-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 16px;
+}
+
+.signin-card {
+  width: 100%;
+  max-width: 340px;
+}
+
+.signin-brand {
+  text-align: center;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.3px;
+  margin-bottom: 20px;
+}
+
+.signin-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 300;
+  margin: 0 0 20px;
+}
+
+.signin-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.signin-box .input,
+.signin-box input {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.signin-box input:focus {
+  outline: none;
+  border-color: var(--link);
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.3);
+}
+
+.form-error {
+  margin: 12px 0 0;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: #d1242f;
+  background: #ffebe9;
+  border: 1px solid rgba(255, 129, 130, 0.4);
+  border-radius: var(--radius);
+}
+
+.signin-hint {
+  margin-top: 16px;
+  padding: 12px 16px;
+  font-size: 13px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  line-height: 1.9;
+}
+
+.signin-hint-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* ========================================================================
+   상단 헤더 (GitHub 다크 바)
+   ======================================================================== */
+.app-header {
+  background: var(--header-bg);
+  color: #ffffff;
+}
+
+.app-header-inner {
+  max-width: 1012px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.app-logo {
+  font-weight: 700;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.app-nav {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-link {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  color: #d0d7de;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+  color: #ffffff;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.app-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.role-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #e6edf3;
+}
+
+.btn-signout {
+  padding: 4px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #d0d7de;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.btn-signout:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+/* ========================================================================
+   본문 레이아웃
+   ======================================================================== */
+.app-main {
+  max-width: 1012px;
+  margin: 0 auto;
+  padding: 24px 16px 120px;
+}
+
+.content {
+  width: 100%;
+}
+
+.page-head {
+  margin-bottom: 16px;
+}
+
+.board-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.page-sub {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ---- 패널 ---- */
+.panel {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.panel-body {
+  padding: 16px;
+}
+
+.compose .input:last-of-type {
+  margin-bottom: 0;
+}
+
+.compose-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* ---- 게시판 (이슈 리스트 스타일) ---- */
+.issue-list {
+  margin-bottom: 16px;
+}
+
+.issue-list-head {
+  padding: 12px 16px;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.issue-row {
+  border-bottom: 1px solid var(--border);
+}
+
+.issue-row:last-child {
+  border-bottom: none;
+}
+
+.issue-main {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.issue-main:hover {
+  background: var(--canvas);
+}
+
+.issue-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--link);
+}
+
+.issue-main:hover .issue-title {
+  text-decoration: underline;
+}
+
+.issue-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.issue-body {
+  padding: 4px 16px 16px;
+  font-size: 14px;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-top: 1px solid var(--border);
+  margin-top: -1px;
+}
+
+.empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.msg {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.standalone-msg {
+  margin: 0 0 16px;
+}
+
+.inline-note {
+  margin: 8px 0 0;
+  font-size: 13px;
+}
+
+/* ---- 관리자 결과 ---- */
+.result-block {
+  margin-top: 16px;
+}
+
+.status-pill {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.status-pill.ok {
+  background: #dafbe1;
+  color: #1a7f37;
+  border: 1px solid rgba(74, 194, 107, 0.4);
+}
+
+.status-pill.deny {
+  background: #ffebe9;
+  color: #d1242f;
+  border: 1px solid rgba(255, 129, 130, 0.4);
+}
+
+.result {
+  margin: 0;
+  padding: 12px;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ========================================================================
+   실습 도구 — 토큰 패널 (화면 하단, 디버그 톤으로 de-emphasize)
+   ======================================================================== */
+.devtool {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  border-top: 1px solid var(--border);
+  background: #f6f8fa;
+}
+
+.devtool-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 1012px;
+  margin: 0 auto;
+  padding: 7px 16px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.devtool-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8c959f;
+}
+
+.devtool.open .devtool-dot {
+  background: var(--green);
+}
+
+.devtool-flag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 0 6px;
+  border-radius: 20px;
+  background: #fff1e5;
+  color: #bc4c00;
+  border: 1px solid rgba(188, 76, 0, 0.3);
+}
+
+.devtool-caret {
+  margin-left: auto;
+}
+
+.devtool-body {
+  max-width: 1012px;
+  margin: 0 auto;
+  padding: 4px 16px 14px;
+}
+
+.devtool-note {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.devtool-textarea {
+  width: 100%;
+  padding: 8px 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  resize: vertical;
+  word-break: break-all;
+}
+
+.devtool-textarea:focus {
+  outline: none;
+  border-color: var(--link);
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.3);
+}
+
+.devtool-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* ---- 반응형 ---- */
+@media (max-width: 600px) {
+  .app-header-inner {
+    flex-wrap: wrap;
+  }
+  .app-user {
+    font-size: 13px;
+  }
+}

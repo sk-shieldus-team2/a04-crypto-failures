@@ -1,6 +1,10 @@
 # OS
 .DS_Store
 
+# IDE
+.idea/
+*.iml
+
 # 비밀/환경 (각자 .env 로 관리, AWS에서는 Parameter Store로 주입)
 .env
 
