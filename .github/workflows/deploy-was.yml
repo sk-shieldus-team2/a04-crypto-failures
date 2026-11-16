@@ -1,0 +1,61 @@
+name: deploy-was
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'was/vuln/**'
+      - '.github/workflows/deploy-was.yml'
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-northeast-2
+  S3_BUCKET: diaglab-team2-artifacts-042947484563
+  WAS_INSTANCE_ID: i-0c95f7b2cc528697d
+  CONTAINER: was
+  AUTODEPLOY: /u01/oracle/user_projects/domains/base_domain/autodeploy
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Build WAR
+        working-directory: was/vuln
+        run: mvn -B clean package
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::042947484563:role/diaglab-team2-gha-deploy
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload WAR to S3
+        run: aws s3 cp was/vuln/target/app.war "s3://${S3_BUCKET}/app.war"
+
+      - name: Deploy to WAS via SSM
+        run: |
+          CMD_ID=$(aws ssm send-command \
+            --region "$AWS_REGION" \
+            --instance-ids "$WAS_INSTANCE_ID" \
+            --document-name AWS-RunShellScript \
+            --comment "deploy app.war" \
+            --parameters commands="[\"aws s3 cp s3://${S3_BUCKET}/app.war /tmp/app.war\",\"docker cp /tmp/app.war ${CONTAINER}:${AUTODEPLOY}/app.war\"]" \
+            --query "Command.CommandId" --output text)
+          echo "CommandId=$CMD_ID"
+          aws ssm wait command-executed --region "$AWS_REGION" --command-id "$CMD_ID" --instance-id "$WAS_INSTANCE_ID" || true
+          aws ssm get-command-invocation \
+            --region "$AWS_REGION" --command-id "$CMD_ID" --instance-id "$WAS_INSTANCE_ID" \
+            --query "{Status:Status,Out:StandardOutputContent,Err:StandardErrorContent}" --output json
