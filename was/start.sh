@@ -26,11 +26,31 @@ if [ ! -f "$DOMAIN_HOME/config/config.xml" ]; then
   rm -f "$PROPS"
 fi
 
-# WS-AT 엔드포인트 배포 (dev 모드 autodeploy) — 시나리오 1 역직렬화 경로
-WSAT_WAR=/u01/oracle/wls/oracle_common/modules/com.oracle.webservices.wls.wsat-endpoints-impl.war
-if [ -f "$WSAT_WAR" ]; then
-  mkdir -p "$DOMAIN_HOME/autodeploy"
-  cp -f "$WSAT_WAR" "$DOMAIN_HOME/autodeploy/wls-wsat.war"
+# WS-AT 엔드포인트 — 정식 배포(weblogic.Deployer). 시나리오 1 역직렬화 경로.
+# autodeploy 방식은 이 환경에서 스캐너가 동작하지 않아 "좀비"로만 등록되므로,
+# 서버 기동 후 백그라운드에서 정식 배포한다(config.xml에 등록 → 재기동에도 유지).
+WSAT_SRC=/u01/oracle/wls/oracle_common/modules/com.oracle.webservices.wls.wsat-endpoints-impl.war
+WSAT_WAR=/u01/oracle/wls-wsat.war
+if [ -f "$WSAT_SRC" ]; then
+  cp -f "$WSAT_SRC" "$WSAT_WAR"
+  (
+    . "$DOMAIN_HOME/bin/setDomainEnv.sh" >/dev/null 2>&1
+    for i in $(seq 1 40); do
+      sleep 6
+      # 이미 배포돼 있으면(config.xml 자동복원 포함) 종료
+      if java weblogic.Deployer -adminurl t3://localhost:7001 \
+           -username "$WLS_USERNAME" -password "$WLS_PASSWORD" -listapps 2>/dev/null | grep -q wls-wsat; then
+        break
+      fi
+      # 서버가 준비되면 정식 배포, 아직이면 다음 루프에서 재시도
+      if java weblogic.Deployer -adminurl t3://localhost:7001 \
+           -username "$WLS_USERNAME" -password "$WLS_PASSWORD" \
+           -deploy -name wls-wsat -source "$WSAT_WAR" -targets AdminServer 2>/dev/null; then
+        echo "[team2] WS-AT 정식 배포 완료"
+        break
+      fi
+    done
+  ) &
 fi
 
 exec "$DOMAIN_HOME/bin/startWebLogic.sh"
