@@ -138,9 +138,9 @@ export default function App() {
           </div>
           <div className="signin-hint">
             <div className="signin-hint-title">테스트 계정</div>
-            <code>admin / admin123</code> <span className="muted">(관리자)</span>
+            <code>admin / admin1234</code> <span className="muted">(관리자)</span>
             <br />
-            <code>user / user123</code> <span className="muted">(일반 사용자)</span>
+            <code>kim / kim1234</code> <span className="muted">(일반 사용자)</span>
           </div>
         </div>
       </div>

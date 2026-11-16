@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Base64;
 
 @WebServlet("/api/login")
@@ -26,7 +29,6 @@ public class LoginServlet extends HttpServlet {
         public String token;
         public String role;
     }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8");
 
@@ -34,9 +36,21 @@ public class LoginServlet extends HttpServlet {
         String username = (body == null) ? null : body.username;
         String password = (body == null) ? null : body.password;
 
+        String sql = "SELECT username, role FROM members WHERE username = '"
+                + username + "' AND password = '" + password + "'";
+
+        String dbUser = null;
         String role = null;
-        if ("admin".equals(username) && "admin123".equals(password)) role = "ADMIN";
-        else if ("user".equals(username) && "user123".equals(password)) role = "USER";
+        try (Connection connection = Db.conn();
+             Statement stmt = connection.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+            if (resultSet.next()) {
+                dbUser = resultSet.getString("username");
+                role = resultSet.getString("role");
+            }
+        } catch (Exception e) {
+            throw new IOException(e);
+        }
 
         if (role == null) {
             response.setStatus(401);
@@ -46,12 +60,11 @@ public class LoginServlet extends HttpServlet {
 
         try {
             LoginResponse out = new LoginResponse();
-            out.token = Jwt.sign(username, role);
+            out.token = Jwt.sign(dbUser, role);
             out.role = role;
             response.getWriter().write(mapper.writeValueAsString(out));
         } catch (Exception e) {
             throw new IOException(e);
         }
-
     }
 }
