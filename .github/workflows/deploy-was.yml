@@ -41,6 +41,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::042947484563:role/diaglab-team2-gha-deploy
           aws-region: ${{ env.AWS_REGION }}
+          role-skip-session-tagging: true
 
       - name: Upload WAR to S3
         run: aws s3 cp was/vuln/target/app.war "s3://${S3_BUCKET}/app.war"
