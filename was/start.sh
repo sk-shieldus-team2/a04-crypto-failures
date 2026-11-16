@@ -26,4 +26,11 @@ if [ ! -f "$DOMAIN_HOME/config/config.xml" ]; then
   rm -f "$PROPS"
 fi
 
+# WS-AT 엔드포인트 배포 (dev 모드 autodeploy) — 시나리오 1 역직렬화 경로
+WSAT_WAR=/u01/oracle/wls/oracle_common/modules/com.oracle.webservices.wls.wsat-endpoints-impl.war
+if [ -f "$WSAT_WAR" ]; then
+  mkdir -p "$DOMAIN_HOME/autodeploy"
+  cp -f "$WSAT_WAR" "$DOMAIN_HOME/autodeploy/wls-wsat.war"
+fi
+
 exec "$DOMAIN_HOME/bin/startWebLogic.sh"

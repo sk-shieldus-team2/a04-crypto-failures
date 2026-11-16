@@ -20,3 +20,6 @@ apps/*
 *.war
 target/
 build/
+
+# 멘토가 준 JDK (라이선스·용량, 팀 내부 전달)
+was/jdk/
