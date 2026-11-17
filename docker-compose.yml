@@ -24,6 +24,7 @@ services:
   weblogic:
     build: ./was
     image: team2/weblogic:local
+    platform: linux/amd64    # 멘토 JDK8/WebLogic이 x86-64 → Apple Silicon은 Rosetta로 구동
     container_name: team2-weblogic
     environment:
       <<: *app-db

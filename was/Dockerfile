@@ -1,5 +1,6 @@
-# WebLogic 12.2.1.2.0 on Ubuntu 22.04, JDK 8 (멘토 제공)
-# installer/ 에 fmw_12.2.1.2.0_wls_Disk1_1of1.(jar|zip),
+# WebLogic 12.2.1.4.0 on Ubuntu 22.04, JDK 8
+# 진입 CVE: CVE-2023-21839 (T3/IIOP 역직렬화 RCE) — 12.2.1.4.0 영향 버전
+# installer/ 에 fmw_12.2.1.4.0_wls_Disk1_1of1.(jar|zip),
 # jdk/ 에 jdk1.8.0_511 폴더를 둔다.
 # 이 단계들은 AWS EC2(Ubuntu)에 직접 설치할 때도 같은 순서로 재사용한다.
 FROM ubuntu:22.04
