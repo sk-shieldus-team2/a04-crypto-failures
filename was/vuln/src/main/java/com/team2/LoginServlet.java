@@ -62,6 +62,7 @@ public class LoginServlet extends HttpServlet {
             LoginResponse out = new LoginResponse();
             out.token = Jwt.sign(dbUser, role);
             out.role = role;
+            out.userId = userId;
             response.getWriter().write(mapper.writeValueAsString(out));
         } catch (Exception e) {
             throw new IOException(e);
